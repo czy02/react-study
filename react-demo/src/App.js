@@ -7,19 +7,19 @@ function App() {
   const { count } = useSelector((state) => state.counter);
   const { channelList } = useSelector((state) => state.channel);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchChannelList());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchChannelList());
+  // }, [dispatch]);
   return (
     <div className="App">
-      <button onClick={() => dispatch(decrement(10))}>-</button>
+      {/* <button onClick={() => dispatch(decrement(10))}>-</button> */}
       {count}
-      <button onClick={() => dispatch(inscrement(20))}>+</button>
-      <ul>
+      {/* <button onClick={() => dispatch(inscrement(20))}>+</button> */}
+      {/* <ul>
         {channelList.map((item) => (
           <li key={item.index}>{item}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
