@@ -1,9 +1,17 @@
 import { NavBar, DatePicker } from "antd-mobile";
 import "./index.scss";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import _ from "lodash";
 const Month = () => {
+  const billList = useSelector((state) => state.bill.billList);
+  // useMemo类似于vue的计算属性
+  const monthGroup = useMemo(() => {
+    return _.groupBy(billList, (item) => dayjs(item.date).format("YYYY | MM"));
+  }, [billList]);
+  console.log(monthGroup);
   // 控制弹框打开关闭
   const [dateVisible, setDateVisible] = useState(false);
 
