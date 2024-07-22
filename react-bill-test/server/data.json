@@ -104,6 +104,20 @@
       "date": "2024-07-22T02:20:11.324Z",
       "useFor": "clothes",
       "id": 22
+    },
+    {
+      "id": "f1cb",
+      "type": "pay",
+      "money": -100,
+      "date": "2024-07-22T06:55:53.685Z",
+      "useFor": "food"
+    },
+    {
+      "id": "fe5a",
+      "type": "income",
+      "money": 100,
+      "date": "2024-07-22T06:56:15.174Z",
+      "useFor": "overtimepay"
     }
   ]
 }
