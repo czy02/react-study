@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addBillList } from "@/store/modules/billStore";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
 const New = () => {
   const navigate = useNavigate();
@@ -16,6 +17,12 @@ const New = () => {
   // 收集接口数据 type money date useFor
   const [money, setMoney] = useState(0);
   const [useFor, setUseFor] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [visible, setVisible] = useState(false);
+  const confirmDate = (value) => {
+    setDate(value);
+    setVisible(false);
+  };
   const changeMoney = (value) => {
     setMoney(value);
   };
@@ -23,7 +30,7 @@ const New = () => {
     const data = {
       type: billType,
       money: billType === "pay" ? -money : +money,
-      date: new Date(),
+      date: date,
       useFor,
     };
     dispatch(addBillList(data));
@@ -55,13 +62,16 @@ const New = () => {
 
         <div className="kaFormWrapper">
           <div className="kaForm">
-            <div className="date">
+            <div className="date" onClick={() => setVisible(true)}>
               <Icon type="calendar" className="icon" />
-              <span className="text">今天</span>
+              <span className="text">{dayjs(date).format("YYYY-MM-DD")}</span>
               <DatePicker
                 className="kaDate"
                 title="记账日期"
                 max={new Date()}
+                visible={visible}
+                onConfirm={confirmDate}
+                onClose={() => setVisible(false)}
               />
             </div>
             <div className="kaInput">
@@ -71,6 +81,7 @@ const New = () => {
                 type="number"
                 value={money}
                 onChange={changeMoney}
+                onCancle={() => setVisible(false)}
               />
               <span className="iconYuan">¥</span>
             </div>
@@ -87,7 +98,10 @@ const New = () => {
                 {item.list.map((item) => {
                   return (
                     <div
-                      className={classNames("item", "")}
+                      className={classNames(
+                        "item",
+                        useFor === item.type ? "selected" : ""
+                      )}
                       key={item.type}
                       onClick={() => setUseFor(item.type)}
                     >
