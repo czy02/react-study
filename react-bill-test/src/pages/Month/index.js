@@ -5,18 +5,18 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import _ from "lodash";
+import DailyBill from "./components/DayBill";
 const Month = () => {
   const billList = useSelector((state) => state.bill.billList);
   // useMemo类似于vue的计算属性
   const monthGroup = useMemo(() => {
-    return _.groupBy(billList, (item) => dayjs(item.date).format("YYYY | MM"));
+    return _.groupBy(billList, (item) => dayjs(item.date).format("YYYY-MM"));
   }, [billList]);
-  console.log(monthGroup);
   // 控制弹框打开关闭
   const [dateVisible, setDateVisible] = useState(false);
 
   const [currentDate, setCurrentDate] = useState(() => {
-    return dayjs(new Date()).format("YYYY | MM");
+    return dayjs(new Date()).format("YYYY-MM");
   });
   const [currentMonthList, setCurrentMonthList] = useState([]);
   const monthResult = useMemo(() => {
@@ -34,17 +34,29 @@ const Month = () => {
   }, [currentMonthList]);
 
   useEffect(() => {
-    const nowDate = dayjs().format("YYYY | MM");
+    const nowDate = dayjs().format("YYYY-MM");
     if (monthGroup[nowDate]) {
       setCurrentMonthList(monthGroup[nowDate]);
     }
   }, [monthGroup]);
   const onConfirm = (date) => {
     setDateVisible(false);
-    const formatDate = dayjs(date).format("YYYY | MM");
+    const formatDate = dayjs(date).format("YYYY-MM");
     setCurrentDate(formatDate);
     setCurrentMonthList(monthGroup[formatDate]);
   };
+
+  const dayGroup = useMemo(() => {
+    const groupData = _.groupBy(currentMonthList, (item) =>
+      dayjs(item.date).format("YYYY-MM-DD")
+    );
+    const key = Object.keys(groupData);
+    return {
+      groupData,
+      key,
+    };
+  }, [currentMonthList]);
+
   return (
     <div className="monthlyBill">
       <NavBar className="nav" backArrow={false}>
@@ -89,6 +101,9 @@ const Month = () => {
             max={new Date()}
           />
         </div>
+        {dayGroup.key.map((key) => (
+          <DailyBill key={key} date={key} billList={dayGroup.groupData[key]} />
+        ))}
       </div>
     </div>
   );
