@@ -118,6 +118,20 @@
       "money": 100,
       "date": "2024-07-22T06:56:15.174Z",
       "useFor": "overtimepay"
+    },
+    {
+      "id": "ad70",
+      "type": "pay",
+      "money": -120,
+      "date": "2024-07-20T16:00:00.000Z",
+      "useFor": "taxi"
+    },
+    {
+      "id": "bf1d",
+      "type": "pay",
+      "money": 0,
+      "date": "2024-07-22T07:25:41.328Z",
+      "useFor": ""
     }
   ]
 }
